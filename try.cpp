@@ -54,38 +54,223 @@ void bigThread(int name)
 
     while(true)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(900));
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
         for(int i=0; i<4;i++)
         {
             if(Bshops[i]==0)
             {
+                cv[4].notify_one();
                 mu.lock();                
                 Que[4] = 0;
                 Bshops[i] = 1;
-                road[i] = name;
                 mu.unlock();
-                std::this_thread::sleep_for(std::chrono::milliseconds(900));
+                if(i==0)
+                {
+                    mu.lock();
+                    move(3,21);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    mu.lock();
+                    move(3,21);
+                    printw("  ");
+                    move(2,23);
+                    printw("%d", name);
+                    mu.unlock();
+                        
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=23; q<32; q+=2)
+                    {
+                        mu.lock();
+                        move(2,q);
+                        printw("  ");
+                        move(2,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                }
+                if(i==1)
+                {
+                    mu.lock();
+                    move(4,21);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=21; q<32; q+=2)
+                    {
+                        mu.lock();
+                        move(4,q);
+                        printw("  ");
+                        move(4,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                }
+                if(i==2)
+                {
+                    mu.lock();
+                    move(6,21);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=21; q<32; q+=2)
+                    {
+                        mu.lock();
+                        move(6,q);
+                        printw("  ");
+                        move(6,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                }
+                if(i==3)
+                {
+                    mu.lock();
+                    move(7,21);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    mu.lock();
+                    move(7,21);
+                    printw("  ");
+                    move(8,23);
+                    printw("%d", name);
+                    mu.unlock();
+                        
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=23; q<32; q+=2)
+                    {
+                        mu.lock();
+                        move(8,q);
+                        printw("  ");
+                        move(8,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
                 mu.lock();
-                road[i] = 0;
+                if(i==0)
+                {
+                    move(2,33);
+                    printw("  ");
+                }
+                if(i==1)
+                {
+                    move(4,33);
+                    printw("  ");
+                }
+                if(i==2)
+                {
+                    move(6,33);
+                    printw("  ");
+                }
+                if(i==3)
+                {
+                    move(8,33);
+                    printw("  ");
+                }                                       
                 shops[i] = name;
                 mu.unlock();
-                std::this_thread::sleep_for(std::chrono::milliseconds(900));
-                cv[4].notify_one();                
+                std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                //cv[4].notify_one();                
                 std::this_thread::sleep_for(std::chrono::seconds(rand() % 10 + 5));
                 mu.lock();
                 Bshops[i] = 0;
                 shops[i] = 0;
-                roadHome[i] = name;
                 mu.unlock();
-                std::this_thread::sleep_for(std::chrono::milliseconds(900));
-                mu.lock();
-                roadHome[i] = 0;
-                roadHome2[i] = name;
-                mu.unlock();
-                std::this_thread::sleep_for(std::chrono::milliseconds(900));
-                mu.lock();
-                roadHome2[i] = 0;
-                mu.unlock();
+                if(i==0)
+                {
+                    mu.lock();
+                    move(2,39);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=39; q<50; q+=2)
+                    {
+                        mu.lock();
+                        move(2,q);
+                        printw("  ");
+                        move(2,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                    mu.lock();
+                    move(2,51);
+                    printw("  ");
+                    mu.unlock();
+                }
+                if(i==1)
+                {
+                    mu.lock();
+                    move(4,39);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=39; q<50; q+=2)
+                    {
+                        mu.lock();
+                        move(4,q);
+                        printw("  ");
+                        move(4,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                    mu.lock();
+                    move(4,51);
+                    printw("  ");
+                    mu.unlock();
+                }
+                if(i==2)
+                {
+                    mu.lock();
+                    move(6,39);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=39; q<50; q+=2)
+                    {
+                        mu.lock();
+                        move(6,q);
+                        printw("  ");
+                        move(6,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                    mu.lock();
+                    move(6,51);
+                    printw("  ");
+                    mu.unlock();
+                }
+                if(i==3)
+                {
+                    mu.lock();
+                    move(8,39);
+                    printw("%d", name);
+                    mu.unlock();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    for(int q=39; q<50; q+=2)
+                    {
+                        mu.lock();
+                        move(8,q);
+                        printw("  ");
+                        move(8,q+2);
+                        printw("%d", name);
+                        mu.unlock();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+                    }
+                    mu.lock();
+                    move(8,51);
+                    printw("  ");
+                    mu.unlock();
+                }
                 return;
             }
         }
@@ -96,105 +281,6 @@ void view()
 {
 	int iter = 0;
 	int count = 0;
-    move(5,5);
-    printw("|");
-    move(5,8);
-    printw("|");
-    move(5,11);
-    printw("|");
-    move(5,14);
-    printw("|");
-    move(5,17);
-    printw("|");
-    move(5,20);
-    printw("|");
-
-    //road
-    move(2, 28);
-    printw("!");
-    move(2, 31);
-    printw("!");
-
-    move(4, 28);
-    printw("!");
-    move(4, 31);
-    printw("!");
-
-    move(6, 28);
-    printw("!");
-    move(6, 31);
-    printw("!");
-
-    move(8, 28);
-    printw("!");
-    move(8, 31);
-    printw("!");
-    //shopsy
-    move(2, 35);
-    printw("$");
-    move(2, 38);
-    printw("$");
-
-    move(4, 35);
-    printw("$");
-    move(4, 38);
-    printw("$");
-
-    move(6, 35);
-    printw("$");
-    move(6, 38);
-    printw("$");
-
-    move(8, 35);
-    printw("$");
-    move(8, 38);
-    printw("$");
-
-
-    //road home
-    move(2, 40);
-    printw("|");
-    move(2, 43);
-    printw(">");
-
-    move(4, 40);
-    printw("|");
-    move(4, 43);
-    printw(">");
-
-    move(6, 40);
-    printw("|");
-    move(6, 43);
-    printw(">");
-
-    move(8, 40);
-    printw("|");
-    move(8, 43);
-    printw(">");
-
-    //road home2
-
-    move(2, 45);
-    printw(">");
-    move(2, 48);
-    printw(">");
-
-    move(4, 45);
-    printw(">");
-    move(4, 48);
-    printw(">");
-
-    move(6, 45);
-    printw(">");
-    move(6, 48);
-    printw(">");
-
-    move(8, 45);
-    printw(">");
-    move(8, 48);
-    printw(">");
-
-    refresh();
 	while (true)
 	{
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -205,28 +291,6 @@ void view()
 		printw("%d", Que[iter]);        
         if(iter!=4)
         {
-            //road
-
-            move(2, 29);
-            printw("  ");
-            move(2, 29);
-            printw("%d", road[0]);
-
-            move(4, 29);
-            printw("  ");
-            move(4, 29);
-            printw("%d", road[1]);
-
-            move(6, 29);
-            printw("  ");
-            move(6, 29);
-            printw("%d", road[2]);
-
-            move(8, 29);
-            printw("  ");
-            move(8, 29);
-            printw("%d", road[3]);
-
             //shops
             move(2, 36);
             printw("  ");
@@ -247,54 +311,44 @@ void view()
             printw("  ");
             move(8, 36);
             printw("%d", shops[3]);
-
-            //road home
-
-            move(2, 41);
-            printw("  ");
-            move(2, 41);
-            printw("%d", roadHome[0]);
-
-            move(4, 41);
-            printw("  ");
-            move(4, 41);
-            printw("%d", roadHome[1]);
-
-            move(6, 41);
-            printw("  ");
-            move(6, 41);
-            printw("%d", roadHome[2]);
-
-            move(8, 41);
-            printw("  ");
-            move(8, 41);
-            printw("%d", roadHome[3]);
-
-            //road home2
-
-            move(2, 46);
-            printw("  ");
-            move(2, 46);
-            printw("%d", roadHome2[0]);
-
-            move(4, 46);
-            printw("  ");
-            move(4, 46);
-            printw("%d", roadHome2[1]);
-
-            move(6, 46);
-            printw("  ");
-            move(6, 46);
-            printw("%d", roadHome2[2]);
-
-            move(8, 46);
-            printw("  ");
-            move(8, 46);
-            printw("%d", roadHome2[3]);
         }
 		iter++;
 		if (iter == 5)
 		{
+            //Queue
+            move(5,5);
+            printw("|");
+            move(5,8);
+            printw("|");
+            move(5,11);
+            printw("|");
+            move(5,14);
+            printw("|");
+            move(5,17);
+            printw("|");
+            move(5,20);
+            printw("|");
+
+            //Shops
+            move(2, 35);
+            printw("$");
+            move(2, 38);
+            printw("$");
+
+            move(4, 35);
+            printw("$");
+            move(4, 38);
+            printw("$");
+
+            move(6, 35);
+            printw("$");
+            move(6, 38);
+            printw("$");
+
+            move(8, 35);
+            printw("$");
+            move(8, 38);
+            printw("$");
 			iter = 0;
 		}
 		refresh();
