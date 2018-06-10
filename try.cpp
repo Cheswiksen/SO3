@@ -6,6 +6,7 @@
 #define A 20
 std::mutex m;
 std::mutex mu;
+std::mutex mtx;
 std::condition_variable cv[5];
 std::condition_variable shop;
 int shops[4];
@@ -15,37 +16,67 @@ int roadHome[4];
 int roadHome2[4];
 int Que[5];
 int kasa = 0;
-
+int Circle[20];
 void bigThread(int name)
 {
+    while (1) 
+    {
+        for(int ik=19; ik>=0;ik--)
+        {
+            m.lock();
+            if(Circle[ik]==0)
+            {
+                Circle[ik]=name;
+                Circle[ik+1]=0;
+            }
+            else
+            {
+                ik++;
+            }
+            m.unlock();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 1300 + 500));
+        m.lock();
+        if(Que[0]==0){
+            Circle[0]=0;
+            m.unlock();
+            break;            
+            }
+        else
+        {
+            Circle[0]=0;
+        }
+        m.unlock();
+    }
+
     std::unique_lock<std::mutex> lk1(m);
-    cv[0].wait(lk1);
+    cv[0].wait(lk1, [](){return !Que[0];});
     Que[0] = name;
     lk1.unlock();
 
     std::unique_lock<std::mutex> lk2(m);
-    cv[1].wait(lk2);
+    cv[1].wait(lk2, [](){return !Que[1];});
     Que[0] = 0;
 	Que[1] = name;
     lk2.unlock();
     cv[0].notify_one();
 
     std::unique_lock<std::mutex> lk3(m);
-    cv[2].wait(lk3);
+    cv[2].wait(lk3, [](){return !Que[2];});
     Que[1] = 0;
 	Que[2] = name;
     lk3.unlock();
     cv[1].notify_one();
 
     std::unique_lock<std::mutex> lk4(m);
-    cv[3].wait(lk4);
+    cv[3].wait(lk4, [](){return !Que[3];});
     Que[2] = 0;
 	Que[3] = name;
     lk4.unlock();
     cv[2].notify_one();
 
     std::unique_lock<std::mutex> lk5(m);
-    cv[4].wait(lk5);
+    cv[4].wait(lk5, [](){return !Que[4];});
     Que[3] = 0;
 	Que[4] = name;
     lk5.unlock();
@@ -315,6 +346,19 @@ void view()
 		iter++;
 		if (iter == 5)
 		{
+            for(int w=0;w<20;w++)
+            {
+                if(Circle[w]==0)
+                {
+                    move(5+w,3);
+                    printw("  ");
+                }
+                else
+                {
+                    move(5+w,3);
+                    printw("%d",Circle[w]);
+                }
+            }
             //Queue
             move(5,5);
             printw("|");
